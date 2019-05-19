@@ -40,10 +40,8 @@ class Poll(models.Model):
         Calculate the average per day
         Rules: The value will be round.
         Eg:
-            1.4 = 1
-            1.5 = 1
-            1.6 = 2
-            1.7 = 2
+            if the average is 1.4 then it will be rounded to 1
+            if the average is 1.6 then it will be rounded to 2
         :return: integer number between 1 and 5
         """
         now = timezone.now()
@@ -57,10 +55,8 @@ class Poll(models.Model):
         """
         Calculate the average between the last seven days
             Eg:
-            1.4 = 1
-            1.5 = 1
-            1.6 = 2
-            1.7 = 2
+            if the average is 1.4 then it will be rounded to 1
+            if the average is 1.6 then it will be rounded to 2
         :param user_id: not required
         :return: integer number between 1 and 5
         """
@@ -75,4 +71,22 @@ class Poll(models.Model):
             avg = cls.objects.filter(
                 date__range=[seven_days_ago, now]).aggregate(
                 avg=Avg('happy_level')).get('avg', 0)
+        return round(avg) if avg else 0
+
+    @classmethod
+    def average_from_the_beginning(cls, user_id=None):
+        """
+        Calculate the average from the beginning
+            Eg:
+            if the average is 1.4 then it will be rounded to 1
+            if the average is 1.6 then it will be rounded to 2
+        :param user_id:
+        :return: integer number between 1 and 5
+        """
+        if user_id:
+            avg = cls.objects.filter(user_id).aggregate(
+                avg=Avg('happy_level')).get('avg', 0)
+        else:
+            avg = cls.objects.all().aggregate(avg=Avg('happy_level')).get(
+                'avg', 0)
         return round(avg) if avg else 0
