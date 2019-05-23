@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db import IntegrityError
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.views import View
 
@@ -35,14 +35,17 @@ class PollsView(LoginRequiredMixin, View):
         now = timezone.now()
         my_happiness = Poll.objects.filter(user_id=request.user.id,
                                            date=now).first()
-        team_name = request.user.team.name
-        data = {
-            "average_per_day": Poll.average_per_day(team=team_name),
-            "average_per_week": Poll.average_of_the_last_seven_days(team=team_name),
-            "average_from_the_beginning": Poll.average_from_the_beginning(team=team_name),
-            "my_happiness": my_happiness.happy_level if my_happiness else 0,
-            "total": zip([Poll.total_per_day(team=team_name, level=l[0]) for l in Poll.HAPPY_CHOICES],
-                         [Poll.total_of_the_last_seven_days(team=team_name, level=l[0]) for l in Poll.HAPPY_CHOICES],
-                         [Poll.total_from_the_beginning(team=team_name, level=l[0]) for l in Poll.HAPPY_CHOICES]),
-        }
-        return render(request, 'polls.html', data)
+        try:
+            team_name = request.user.team.name
+            data = {
+                "average_per_day": Poll.average_per_day(team=team_name),
+                "average_per_week": Poll.average_of_the_last_seven_days(team=team_name),
+                "average_from_the_beginning": Poll.average_from_the_beginning(team=team_name),
+                "my_happiness": my_happiness.happy_level if my_happiness else 0,
+                "total": zip([Poll.total_per_day(team=team_name, level=l[0]) for l in Poll.HAPPY_CHOICES],
+                            [Poll.total_of_the_last_seven_days(team=team_name, level=l[0]) for l in Poll.HAPPY_CHOICES],
+                            [Poll.total_from_the_beginning(team=team_name, level=l[0]) for l in Poll.HAPPY_CHOICES]),
+            }
+            return render(request, 'polls.html', data)
+        except AttributeError:
+            return redirect('home')
