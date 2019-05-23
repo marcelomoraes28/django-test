@@ -8,7 +8,11 @@
     <h1>Polls</h1>
 </div>
 <div class="col-sm">
-    <canvas id="myBarChart" width="400" height="200"></canvas>
+    <canvas id="myBarChart" width="300" height="100"></canvas>
+</div>
+
+<div class="col-sm">
+    <canvas id="totalByLevelBarChart" width="200" height="100"></canvas>
 </div>
 {% endblock %}
 {% block scripts %}
@@ -47,6 +51,71 @@ beginAtZero: true
 }]
 }
 }
+});
+
+var ctx_total = document.getElementById('totalByLevelBarChart').getContext('2d');
+var totalByLevelBarChart = new Chart(ctx_total, {
+    type: 'pie',
+    data: {
+        labels: ['Total per day level 1', 'Total per week level 1', 'Total level 1' ,
+                 'Total per day level 2', 'Total per week level 2', 'Total level 2',
+                 'Total per day level 3', 'Total per week level 3', 'Total level 3',
+                 'Total per day level 4', 'Total per week level 4', 'Total level 4',
+                  'Total per day level 5', 'Total per week level 5', 'Total level 5'],
+        datasets: [{
+            data: [
+            {% for day, week, beginning in total%}
+                {{day}} ,
+                {{week}} ,
+                {{beginning}} ,
+            {% endfor %}
+            ],
+    backgroundColor: [
+    'rgba(255, 99, 132, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(255, 206, 86, 0.2)',
+    'rgba(30, 120, 140, 0.2)',
+    'rgba(11, 94, 129, 0.2)',
+    'rgba(66, 49, 270, 0.2)',
+    'rgba(142, 9, 49, 0.2)',
+    'rgba(76, 52, 64, 0.2)',
+    'rgba(267, 165, 193, 0.2)',
+    'rgba(90, 191, 191, 0.2)',
+    'rgba(87, 254, 195, 0.2)',
+    'rgba(49, 26, 24, 0.2)',
+    'rgba(142, 125, 167, 0.2)',
+    'rgba(141, 182, 18, 0.2)',
+    'rgba(44, 66, 76, 0.2)',
+    ],
+    borderColor: [
+    'rgba(255, 99, 132, 1)',
+    'rgba(54, 162, 235, 1)',
+    'rgba(255, 206, 86, 1)',
+    'rgba(75, 192, 192, 1)',
+    'rgba(11, 94, 129, 1)',
+    'rgba(66, 49, 270, 1)',
+    'rgba(142, 9, 49, 1)',
+    'rgba(76, 52, 64, 1)',
+    'rgba(267, 165, 193, 1)',
+    'rgba(90, 191, 191, 1)',
+    'rgba(87, 254, 195, 1)',
+    'rgba(49, 26, 24, 1)',
+    'rgba(142, 125, 167, 1)',
+    'rgba(141, 182, 18, 1)',
+    'rgba(44, 66, 76, 1)',
+    ],
+    borderWidth: 1
+    }]
+    },
+    options: {
+    scales: {
+    yAxes: [{
+    ticks: {
+    beginAtZero: true
+    }
+    }]
+    }
+    }
 });
 </script>
 {% endif %}
