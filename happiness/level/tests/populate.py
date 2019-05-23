@@ -1,9 +1,10 @@
 from datetime import timedelta
-
 from django.utils import timezone
 
 from freezegun import freeze_time
-from level.factories import PollFactory
+from level.factories import PollFactory, TeamFactory
+
+from users.models import Team
 
 
 def generate_random_data(days=30):
@@ -72,13 +73,14 @@ def generate_random_data(days=30):
         28: [1, 1, 2, 4, 2, 2, 2, 2, 3, 3, 1, 2, 2, 4, 2, 4, 2, 4, 1, 1],
         29: [4, 4, 5, 1, 4, 3, 4, 5, 3, 3, 1, 1, 2, 3, 5, 5, 4, 2, 4, 2]
     }
+    team = Team.objects.first() if Team.objects.first() else TeamFactory()
     for k, v in _data.items():
         if k > days:
             break
         _date = timezone.now() - timedelta(days=k)
         with freeze_time(_date):
             for x in v:
-                PollFactory(happy_level=x, date=_date)
+                PollFactory(happy_level=x, date=_date, user__team=team)
 
 
 def generate_poll_by_user(user, days=30):
@@ -95,7 +97,9 @@ def generate_poll_by_user(user, days=30):
     """
     levels = [1, 4, 1, 5, 3, 3, 5, 1, 3, 3, 3, 5, 3, 3, 4, 1, 2, 3, 3, 2, 2, 4,
               1, 5, 3, 2, 4, 1, 2, 4]
+    team = Team.objects.first() if Team.objects.first() else TeamFactory()
     for day in range(days):
         _date = timezone.now() - timedelta(days=day)
         with freeze_time(_date):
-            PollFactory(user=user, happy_level=levels[day], date=_date)
+            PollFactory(user=user, happy_level=levels[day], date=_date,
+                        user__team=team)
