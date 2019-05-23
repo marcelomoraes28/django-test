@@ -47,7 +47,7 @@ class PollTest(BaseTestCase):
         assert Poll.average_per_day(
             team=self.user.team.name) == 3
 
-    def test_average_average_from_the_beginning_by_user(self):
+    def test_average_from_the_beginning_by_user(self):
         """
         Case : Test when one user voted for one month
             votes: you can see in module level.tests.populate.generate_poll_by_user
@@ -58,7 +58,7 @@ class PollTest(BaseTestCase):
         assert Poll.average_of_the_last_seven_days(
             team=self.user.team.name) == 3
 
-    def test_average_average_from_the_beginning(self):
+    def test_average_from_the_beginning(self):
         """
         Case : Test when 20 users voted for one month
             votes: you can see in module level.tests.populate.generate_random_data
@@ -99,3 +99,15 @@ class PollTest(BaseTestCase):
         generate_random_data()
         assert Poll.average_of_the_last_seven_days(
             team=self.user.team.name) == 3
+
+    def test_total_from_the_beginning(self):
+        """
+        Case: Test when different users voting during one month
+        For more information take a look in module level.tests.populate
+        """
+        generate_random_data()
+        assert Poll.total_from_the_beginning(team=self.user.team.name, level=1) == 156
+        assert Poll.total_from_the_beginning(team=self.user.team.name, level=2) == 118
+        assert Poll.total_from_the_beginning(team=self.user.team.name, level=3) == 118
+        assert Poll.total_from_the_beginning(team=self.user.team.name, level=4) == 106
+        assert Poll.total_from_the_beginning(team=self.user.team.name, level=5) == 102
