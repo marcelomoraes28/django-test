@@ -1,18 +1,27 @@
 from django.utils import timezone
-from django.contrib.auth.models import User
 from factory import DjangoModelFactory
 from factory import Sequence, SubFactory
 from factory.fuzzy import FuzzyChoice
 
 from level.models import Poll
+from users.models import CustomUser, Team
+
+
+class TeamFactory(DjangoModelFactory):
+    class Meta:
+        model = Team
+
+    name = Sequence(lambda n: 'team__%d' % n)
+    description = Sequence(lambda n: 'team__description__%d' % n)
 
 
 class UserFactory(DjangoModelFactory):
     class Meta:
-        model = User
+        model = CustomUser
         django_get_or_create = ('username',)
 
     username = Sequence(lambda n: 'user__%d' % n)
+    team = SubFactory(TeamFactory)
 
 
 class PollFactory(DjangoModelFactory):
