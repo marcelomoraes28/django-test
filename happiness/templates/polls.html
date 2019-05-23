@@ -1,0 +1,53 @@
+<!-- templates/home.html-->
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+{% load static %}
+{% block content %}
+<div class="page-header">
+    <h1>Polls</h1>
+</div>
+<div class="col-sm">
+    <canvas id="myBarChart" width="400" height="200"></canvas>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{% static "node_modules/chart.js/dist/Chart.min.js" %}"></script>
+{% if user.is_authenticated %}
+<script>
+var ctx = document.getElementById('myBarChart').getContext('2d');
+var myBarChart = new Chart(ctx, {
+type: 'bar',
+data: {
+labels: ['My hapiness', 'Average per day', 'Average of the last seven days', 'Average from the beginning'],
+datasets: [{
+label: 'Hapiness meter',
+data: [{{my_happiness}}, {{average_per_day}}, {{average_of_the_last_seven_days}}, {{average_from_the_beginning}}],
+backgroundColor: [
+'rgba(255, 99, 132, 0.2)',
+'rgba(54, 162, 235, 0.2)',
+'rgba(255, 206, 86, 0.2)',
+'rgba(75, 192, 192, 0.2)'
+],
+borderColor: [
+'rgba(255, 99, 132, 1)',
+'rgba(54, 162, 235, 1)',
+'rgba(255, 206, 86, 1)',
+'rgba(75, 192, 192, 1)'
+],
+borderWidth: 1
+}]
+},
+options: {
+scales: {
+yAxes: [{
+ticks: {
+beginAtZero: true
+}
+}]
+}
+}
+});
+</script>
+{% endif %}
+{% endblock %}

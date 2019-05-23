@@ -1,0 +1,24 @@
+<!-- templates/poll.html-->
+{% extends 'base.html' %}
+
+{% block title %}Poll{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <h1>Hi {{ user.username }}! What is your happiness level today?</h1>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <form method="POST" class="post-form">{% csrf_token %}
+            <div class="form-group">
+                {{ form.as_p}}
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
