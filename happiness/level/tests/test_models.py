@@ -15,7 +15,8 @@ class PollTest(BaseTestCase):
             round: 3
         """
         generate_poll_by_user(user=self.user, days=7)
-        assert Poll.average_of_the_last_seven_days(user_id=self.user.id) == 3
+        assert Poll.average_of_the_last_seven_days(
+            team=self.user.team.name) == 3
 
     def test_average_of_the_last_seven_days_20_user(self):
         """
@@ -32,7 +33,8 @@ class PollTest(BaseTestCase):
             round: 3
         """
         generate_random_data(days=7)
-        assert Poll.average_of_the_last_seven_days() == 3
+        assert Poll.average_of_the_last_seven_days(
+            team=self.user.team.name) == 3
 
     def test_average_per_day(self):
         """
@@ -42,7 +44,8 @@ class PollTest(BaseTestCase):
             round: 3
         """
         generate_random_data(days=1)
-        assert Poll.average_per_day() == 3
+        assert Poll.average_per_day(
+            team=self.user.team.name) == 3
 
     def test_average_average_from_the_beginning_by_user(self):
         """
@@ -52,7 +55,8 @@ class PollTest(BaseTestCase):
             round: 3
         """
         generate_poll_by_user(user=self.user)
-        assert Poll.average_of_the_last_seven_days() == 3
+        assert Poll.average_of_the_last_seven_days(
+            team=self.user.team.name) == 3
 
     def test_average_average_from_the_beginning(self):
         """
@@ -93,4 +97,5 @@ class PollTest(BaseTestCase):
             round: 3
         """
         generate_random_data()
-        assert Poll.average_of_the_last_seven_days() == 3
+        assert Poll.average_of_the_last_seven_days(
+            team=self.user.team.name) == 3
