@@ -106,8 +106,32 @@ class PollTest(BaseTestCase):
         For more information take a look in module level.tests.populate
         """
         generate_random_data()
-        assert Poll.total_from_the_beginning(team=self.user.team.name, level=1) == 156
-        assert Poll.total_from_the_beginning(team=self.user.team.name, level=2) == 118
-        assert Poll.total_from_the_beginning(team=self.user.team.name, level=3) == 118
-        assert Poll.total_from_the_beginning(team=self.user.team.name, level=4) == 106
-        assert Poll.total_from_the_beginning(team=self.user.team.name, level=5) == 102
+        assert Poll.total_from_the_beginning(team=self.user.team.name, level=1) == 156  # noqa
+        assert Poll.total_from_the_beginning(team=self.user.team.name, level=2) == 118  # noqa
+        assert Poll.total_from_the_beginning(team=self.user.team.name, level=3) == 118  # noqa
+        assert Poll.total_from_the_beginning(team=self.user.team.name, level=4) == 106  # noqa
+        assert Poll.total_from_the_beginning(team=self.user.team.name, level=5) == 102  # noqa
+
+    def test_total_per_day(self):
+        """
+        Case: Test when different users voting today
+        For more information take a look in module level.tests.populate
+        """
+        generate_random_data()
+        assert Poll.total_per_day(team=self.user.team.name, level=1) == 3
+        assert Poll.total_per_day(team=self.user.team.name, level=2) == 4
+        assert Poll.total_per_day(team=self.user.team.name, level=3) == 4
+        assert Poll.total_per_day(team=self.user.team.name, level=4) == 5
+        assert Poll.total_per_day(team=self.user.team.name, level=5) == 4
+
+    def test_total_of_the_last_seven_days(self):
+        """
+        Case: Test when different users voting during a week
+        For more information take a look in module level.tests.populate
+        """
+        generate_random_data()
+        assert Poll.total_of_the_last_seven_days(team=self.user.team.name, level=1) == 43  # noqa
+        assert Poll.total_of_the_last_seven_days(team=self.user.team.name, level=2) == 30  # noqa
+        assert Poll.total_of_the_last_seven_days(team=self.user.team.name, level=3) == 37  # noqa
+        assert Poll.total_of_the_last_seven_days(team=self.user.team.name, level=4) == 29  # noqa
+        assert Poll.total_of_the_last_seven_days(team=self.user.team.name, level=5) == 21  # noqa
