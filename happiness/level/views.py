@@ -38,7 +38,7 @@ class PollsView(LoginRequiredMixin, View):
         team_name = request.user.team.name
         data = {
             "average_per_day": Poll.average_per_day(team=team_name),
-            "average_of_the_last_seven_days": Poll.average_of_the_last_seven_days(team=team_name),
+            "average_per_week": Poll.average_of_the_last_seven_days(team=team_name),
             "average_from_the_beginning": Poll.average_from_the_beginning(team=team_name),
             "my_happiness": my_happiness.happy_level if my_happiness else 0,
             "total": zip([Poll.total_per_day(team=team_name, level=l[0]) for l in Poll.HAPPY_CHOICES],
