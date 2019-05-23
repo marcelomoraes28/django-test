@@ -5,7 +5,6 @@ __pycache__/
 
 # C extensions
 *.so
-*.package-lock
 # Distribution / packaging
 .Python
 build/
@@ -124,3 +123,4 @@ dmypy.json
 # NodeModules
 package-lock.json
 node_modules/
+*.package-lock
