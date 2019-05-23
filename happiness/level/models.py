@@ -86,3 +86,48 @@ class Poll(models.Model):
             avg=Avg('happy_level')).get(
             'avg', 0)
         return round(avg) if avg else 0
+
+    @classmethod
+    def total_per_day(cls, team, level):
+        """
+        Count the total number of people voting at the level informed today
+        :param team:
+        :param level: 1,2,3,4,5
+        :return:
+        """
+        now = timezone.now()
+        total = cls.objects.filter(date=now,
+                                   user__team__name=team,
+                                   happy_level=str(level)).count()
+        return total
+
+    @classmethod
+    def total_of_the_last_seven_days(cls, team, level):
+        """
+        Count the total number of people voting at the level informed between
+        the last seven days
+        :param team:
+        :param level: 1,2,3,4,5
+        :return:
+        """
+        now = timezone.now()
+        seven_days_ago = now - timedelta(days=7)
+        total = cls.objects.filter(
+            date__range=[seven_days_ago, now],
+            user__team__name=team,
+            happy_level=level).count()
+        return total
+
+    @classmethod
+    def total_from_the_beginning(cls, team, level):
+        """
+        Count the total number of people voting at the level informed
+        :param team:
+        :param level: 1,2,3,4,5
+        :return:
+        """
+
+        total = cls.objects.filter(
+            user__team__name=team,
+            happy_level=level).count()
+        return total
