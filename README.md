@@ -51,6 +51,8 @@ Go to the folder happiness and run the code below
 python manage.py createsuperuser
 ```
 
+*Obs: Check if if your venv is active*
+
 ## Business rules
 
 ### The Teams
