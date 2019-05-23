@@ -1,37 +1,80 @@
-# How is My Team?
-A simple Django application to allow daily checkins and monitoring of your teams happiness.
+[![Python Version](https://img.shields.io/badge/python-3.6-blue.svg)](https://img.shields.io/badge/python-3.6-blue.svg)
 
-## Requirements
+# Team Happiness
+The "Team Happiness" is a django project that you can measure the happiness of your team.
 
-Create a simple Django application that:
+## Getting Started
 
-1. Allows a user to login.
-2. Once per day, users are asked for the happiness level from 1 (Unhappy) to 3 (Neutral) to 5 (Very Happy)
-3. After they have entered their happiness level or upon any return visit, shows a statistics page.
-4. The statistics page anonymously displays the number of people at each level and the average happiness of the team.
-5. New users can be added via the Django admin.
-6. Bonus: SaaS! Users can belong to teams and only their teams stats are shown.
+These instructions will help you to run the project.
 
-## Guidelines
+**Basic requirements**
+- python3.6
+- npm 6.9.0
 
-* You MUST include installation instructions so that it can be run locally be other developers.
-* You MUST document any applications or external packages you use.
-* You SHOULD be following Django best practices.
-* You SHOULD take as little or as long as you need (but don't overdo it). You will not be evaluated on time to complete.
-* You SHOULD ask questions if anything specified here is not clear in any way.
-* You SHOULD incrementally commit to this repository along the way.
+*Attention: This project has been tested using only these service versions.*
 
-## Instructions
+### External libraries
 
-1. Fork this github repository using your personal github account.
-2. Create your solution. Test it. Test it again to be sure. Commit it and push to your personal repo.
-3. Submit a PR (pull request) back to this repository indicating your solution is ready for review.
+For tests:
+- **coverage**
+- **factory-boy**
+- **freezegun**
 
-## Evaluation Criteria
+Front-end:
+- **bootrap@4.3.1**
+- **jquery@3.4.1**
+- **chart.js@2.8.0**
+- **popper.js@1.15.0**
 
-You will be evaluated with the following in mind:
+### Running the project
 
-* Does the solution satisfy the five (or 6) requirements?
-* Does the solution run locally based on the provided instructions?
-* Does the solution make good use of tools/frameworks/libraries/APIs?
-* Does the implementation follow established best practices (design patterns, language usage, code formatting, etc..)?
+```
+./run_dev.sh
+```
+
+### Resources
+
+- **Home:** /
+- **Answer happiness:** /poll/new
+- **Happiness:** /poll
+- **Admin**: /admin
+
+### Running the tests
+
+```
+./run_test.sh
+```
+
+### Create super user
+Go to the folder happiness and run the code below
+```
+python manage.py createsuperuser
+```
+
+## Business rules
+
+### The Teams
+Every user in the system must be in a Team.
+
+**Rules:** The logged-in user will only see the metrics of their team (Happiness resource).
+
+Add a user in a team
+- Login with a superuser in /admin;
+- Click in "Users" link;
+- Search for the desired user and change the team in the combobox;
+
+### Polls
+The polls will show two charts with some important information about the happiness team.
+
+*Bonus: "average per day", "average per week", "total per day", "total per week"*
+
+**The first chart (Bar Chart)**
+- **My Happiness:** My happiness level today
+- **Average per day:** Average of happiness level of my team today
+- **Average per week:** Average of happiness level of my team per week
+- **Average from the beginning:** Average of happiness level of my team since the beginning
+
+**The second chart (Pizza Chart)**
+- **Total level per day level (n):** Total of votes of my team in the level (n) per day;
+- **Total per week level (n):** Total of votes of my team in the level (n) per week;
+- **Total (n):** Total of votes of my team in the level (n) since the beginning
